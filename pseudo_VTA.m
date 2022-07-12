@@ -42,7 +42,7 @@ elseif stim_side=="lh"
     S.Ls1.amp=ampi;
 end 
 
-for ggg=1:3 %num_vtas
+for ggg=1:num_vtas %num_vtas
 %% User Input
 idxi=randi(size(XYZmm,1));
 coor=XYZmm(idxi,:); 
@@ -76,6 +76,7 @@ end
 
 elstruct=ea_stats.electrodes; 
 options=options; 
+options=ea_resolve_elspec(options);
 elspec=options.elspec; 
 options.usediffusion=0;
 coords=S.activecontacts{side}; 
@@ -94,7 +95,6 @@ if ~isfield(S, 'sources')
     S.sources=1:4;
 end
 
-options=ea_resolve_elspec(options);
 Electrode_type = elspec.matfname;
 
 Efield_all=zeros(100,100,100);

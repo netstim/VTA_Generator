@@ -27,7 +27,7 @@ if nargin<5
     ea_error('Not enough input arguments provided.');
 end
 
-options=ea_getptopts(pwd);
+options.prefs=ea_prefs;
 outptFolder=varargin{1};
 maskFn=varargin{2};
 numvtas=varargin{3};

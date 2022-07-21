@@ -1,10 +1,10 @@
 %% set parameters:
-reforce = 0; % set to 1 to make sure everything is recalculated
+reforce = 1; % set to 1 to make sure everything is recalculated
 
 % Params for Step 1: Calculate Pseudo VTAs
 amp.mean=2.5; % average vta amplitude
 amp.jit=2; % jitter of vta amplitudes
-numvtas=100; % how many vtas to generate
+numvtas=5000; % how many vtas to generate
 vta_jit=0.5; % jitter of spatial spread
 roidef=fullfile(ea_space([],'atlases'),'DISTAL Nano (Ewert 2017)','lh','STN.nii.gz'); % area to cover by VTAs
 

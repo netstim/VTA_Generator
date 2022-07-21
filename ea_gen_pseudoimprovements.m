@@ -41,8 +41,12 @@ for sws=1:length(sweetspots)
         if ~any(connidx)
             val(vta,sws)=nan;
         else
+            try
             val(vta,sws)=ea_nansum(roiVals(IDX(connidx)).*stimVals(connidx))./...
                 ea_nansum(stimVals(~connidx));
+            catch
+                            val(vta,sws)=nan;
+            end
         end
         
         ea_dispercent(vta/length(list));

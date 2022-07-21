@@ -1,5 +1,5 @@
 %% set parameters:
-reforce = 1; % set to 1 to make sure everything is recalculated
+reforce = 0; % set to 1 to make sure everything is recalculated
 
 % Params for Step 1: Calculate Pseudo VTAs
 amp.mean=2.5; % average vta amplitude

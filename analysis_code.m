@@ -42,7 +42,13 @@ else
     load(['data',filesep,'improvements.mat']);
 end
 
-% Step 3: setup sweetspot / fiberfiltering explorers
+% Export Groundtruth Sweetspot
+if ~exist(fullfile(outptFolder,['groundtruth_sweetspot.nii']),'file') || reforce
+    ea_gen_groudtruthsweetspot('data',sweetspots,sweetspot_weights);
+end
+
+
+% Step 3: Setup sweetspot / fiberfiltering explorers
 improvements.groundtruth=I;
 improvements.variations=repmat(I,1,1000);
 improvements.variations=improvements.variations+...

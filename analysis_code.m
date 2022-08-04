@@ -1,19 +1,21 @@
 %% set parameters:
-reforce = 0; % set to 1 to make sure everything is recalculated
+reforce = 1; % set to 1 to make sure everything is recalculated
 
 % Params for Step 1: Calculate Pseudo VTAs
 amp.mean=2.5; % average vta amplitude
 amp.jit=2; % jitter of vta amplitudes
-numvtas=5000; % how many vtas to generate
-vta_jit=0.5; % jitter of spatial spread
+numvtas=1000; % how many vtas to generate
+vta_jit=1; % jitter of spatial spread
 roidef=fullfile(ea_space([],'atlases'),'DISTAL Nano (Ewert 2017)','lh','STN.nii.gz'); % area to cover by VTAs
 
 % Params for Step 2: Get Pseudo Improvements
 sweetspots={fullfile(ea_space([],'atlases'),'TOR-signPD (Boutet 2021)','lh','tremor_hotspot.nii.gz'),... % sweetspot example 1 (nifti)
     fullfile(ea_space([],'atlases'),'DBS Tractography Atlas (Middlebrooks 2020)','lh','DRTT.mat'),... % sweetspot example 2 (tract))
+    fullfile(ea_space([],'atlases'),'TOR-signPD (Boutet 2021)','lh','tremor_coldspot.nii.gz'),... % sweetspot example 1 (nifti)
     fullfile(ea_space([],'atlases'),'DBS Tractography Atlas (Middlebrooks 2020)','lh','NDRTT.mat')}; % sourspot example 1 (tract))
 sweetspot_weights=[1 ...
     1 ...
+    -1
     -1];
 useVTAvsEfields = 'vtas'; % set to 'efields' to use efields instead (both are always generated in step 1
 
@@ -36,14 +38,16 @@ end
 if ~exist(['data',filesep,'improvements.mat'],'file') || reforce
     I=ea_gen_pseudoimprovements(listout.(useVTAvsEfields),...
         sweetspots,sweetspot_weights);
+    
     I(isnan(I))=0; % neutral null
+    I=ea_normal(I,1,1,1,'TRUE'); % gaussianize improvements
     save(['data',filesep,'improvements.mat'],'I');
 else
     load(['data',filesep,'improvements.mat']);
 end
 
 % Export Groundtruth Sweetspot
-if ~exist(fullfile(outptFolder,['groundtruth_sweetspot.nii']),'file') || reforce
+if ~exist(fullfile('data',['groundtruth_sweetspot.nii']),'file') || reforce
     ea_gen_groudtruthsweetspot('data',sweetspots,sweetspot_weights);
 end
 
